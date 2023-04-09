@@ -1,0 +1,29 @@
+<form [formGroup]="formUser" (ngSubmit)="onSubmitForm()">
+  <h2 class="fw-bold mb-2 text-uppercase">{{isSignUp ? 'Sign Up':'Login' }}</h2>
+  <p class="text-white-50 mb-5" >{{isSignUp ?'Please enter your personal data!' : ' Please enter your email and password!' }}</p>
+
+  <mat-form-field class="form-outline form-white col-md-12 mb-4 example-full-width">
+    <mat-label>Email</mat-label>
+    <input type="email" matInput placeholder="pat@example.com" formControlName="email">
+  </mat-form-field>
+
+
+  <mat-form-field class="form-outline form-white col-md-12 mb-4 example-full-width">
+    <mat-label>Password</mat-label>
+    <input type="password" matInput placeholder="your password"  formControlName="password">
+  </mat-form-field>
+
+
+  <div *ngIf="isSignUp === true">
+    <mat-form-field  class="form-outline form-white col-md-12 mb-4 example-full-width">
+      <mat-label>Phone Number</mat-label>
+      <input type="tel" matInput placeholder="555 555 1234"formControlName="phoneNumber" >
+    </mat-form-field>
+  </div>
+  <div class="container-fluid mb-4">
+    <button class="btn btn-outline-light btn-lg px-5" type="submit" [disabled]="formUser.invalid">{{isSignUp ? 'Sign Up':'Login' }}</button>
+  </div>
+</form>
+
+
+
