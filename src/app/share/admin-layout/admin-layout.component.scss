@@ -1,0 +1,70 @@
+body {
+  font-family: 'Roboto';
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+}
+.sidebar {
+  height: 100%;
+  width: 160px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-image: linear-gradient(30deg , #1b3255, #40b050);
+  overflow-x: hidden;
+  padding-top: 16px;
+}
+
+.sidebar a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #000000;
+  display: block;
+}
+
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+.main {
+  margin-left: 160px; /* Same as the width of the sidenav */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidebar {
+    padding-top: 15px;
+  }
+  .sidebar a {
+    font-size: 18px;
+  }
+}
+@media screen and (max-height: 450px) {
+  .sidebar {
+    padding-top: 15px;
+  }
+  .sidebar a {
+    font-size: 18px;
+  }
+}
+@media screen and (max-width: 650px) {
+    .sidebar {
+        width: 60px;
+    }
+    .sidebar span{
+        display: none;
+    }
+
+    .sidebar:hover {
+        width: 200px;
+    }
+    .sidebar:hover span {
+        display: initial;
+    }
+    .main {
+        margin-left: 80px;
+    }
+
+  }

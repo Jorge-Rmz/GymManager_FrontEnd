@@ -1,1 +1,17 @@
-<p>admin-layout works!</p>
+<div class="sidebar">
+  <a [routerLink]="['/home']"><i class="fa fa-fw fa-home"></i><span>Home</span> </a>
+  <a [routerLink]="['/attendance']"><i class="fa fa-calendar-check"></i><span>Attendance</span></a>
+  <a [routerLink]="['/equipment-Types']"><i class="fas fa-dumbbell"></i><span>Equipment</span></a>
+  <a [routerLink]="['/members']"><i class="fas fa-id-badge"></i><span>Members</span></a>
+  <a [routerLink]="['/city']"><i class="fa fa-city"></i><span>City</span></a>
+  <a [routerLink]="['/membership-types']"><i class="fas fa-award"></i><span>Membership</span></a>
+  <a [routerLink]="['/users']"><i class="fa fa-fw fa-user"></i><span>Users</span></a>
+  <a [routerLink]="['/sign-out']"><i class="fa-solid fa-circle-xmark"></i> <span>Sing Out</span></a>
+</div>
+<div class="main">
+<div class="container-fluid my-5">
+  <router-outlet> </router-outlet>
+</div>
+</div>
+
+

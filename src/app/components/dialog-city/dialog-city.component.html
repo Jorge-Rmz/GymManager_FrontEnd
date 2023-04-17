@@ -1,0 +1,14 @@
+<form [formGroup]="formCity" (ngSubmit)="onSaveClick()">
+  <h3  mat-dialog-title>Insert City</h3>
+  <div mat-dialog-content>
+    <mat-form-field class="form-outline form-white col-md-12 mb-4 example-full-width">
+      <mat-label>Name of City</mat-label>
+      <input type="text" matInput placeholder="San Pedro" formControlName="name">
+    </mat-form-field>
+    <div class="dialog-buttons">
+      <button mat-button type="button" (click)="onCancelClick()">Cancelar</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="formCity.invalid" >Guardar</button>
+    </div>
+  </div>
+</form>
+
