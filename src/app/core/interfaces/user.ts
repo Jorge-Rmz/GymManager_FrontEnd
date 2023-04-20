@@ -33,7 +33,8 @@ export interface ResponseModelLogin {
 }
 
 export interface Model {
-    title: string;
+  title?: string;
+  accessToken?: string;
 }
 
 export interface ResponseModelSignUp{

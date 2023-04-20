@@ -17,6 +17,15 @@ export class SwalAlertsService {
       confirmButtonColor: '#031a3d',
     });
   }
+  messageAlert(descripcion: string ) {
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: descripcion,
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
   messageWhitTimer(mensaje: string){
     const Toast = Swal.mixin({
       toast: true,

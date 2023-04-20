@@ -46,17 +46,21 @@ export class CityComponent implements OnInit{
     }
   }
   edit(row:any){
-    console.log(row);
+    const dialogRef = this.dialog.open(DialogCityComponent, {
+      disableClose: true,
+      width: '300px',
+      data: row,
+    });
+    // console.log(row);
+
   }
   delete(row:any){
     console.log(row);
   }
-
   openDialog(){
     const dialogRef = this.dialog.open(DialogCityComponent, {
       disableClose: true,
       width: '300px',
-      data: {}
     });
 
     dialogRef.afterClosed().subscribe(result => {

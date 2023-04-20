@@ -8,6 +8,7 @@ import { AdminLayoutComponent } from './share/admin-layout/admin-layout.componen
 import { NavbarComponent } from './share/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { CookieModule } from 'ngx-cookie';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     MaterialModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    CookieModule.withOptions()
   ],
   providers: [],
   bootstrap: [AppComponent]
