@@ -1,9 +1,12 @@
-import {Component, EventEmitter, Inject, OnInit, Output} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import {MatDialog, MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import { Select, Store } from '@ngxs/store';
 import { City } from 'src/app/core/interfaces/city';
 import { CityService } from 'src/app/core/services/city.service';
 import { SwalAlertsService } from 'src/app/core/services/swal-alerts.service';
+import { AddCity } from 'src/app/core/state/cities.actions';
+
 
 @Component({
   selector: 'app-dialog-city',
@@ -11,7 +14,6 @@ import { SwalAlertsService } from 'src/app/core/services/swal-alerts.service';
   styleUrls: ['./dialog-city.component.scss']
 })
 export class DialogCityComponent implements OnInit{
-  // @Output() responseForm: EventEmitter<City> = new EventEmitter();
   formCity!: FormGroup;
   isEdit: boolean = false;
   confirmButtonText = 'Create City'
@@ -27,6 +29,7 @@ export class DialogCityComponent implements OnInit{
     private dialogRef: MatDialogRef<DialogCityComponent>,
     @Inject(MAT_DIALOG_DATA) public row: City,
     private alertas: SwalAlertsService,
+    private store:Store
   ) {}
 
   ngOnInit(): void {
@@ -51,11 +54,13 @@ export class DialogCityComponent implements OnInit{
     if(!this.isEdit){
       this.city.addCity(this.formCity.value).subscribe((response)=>{
         this.alertas.messageAlert(response.message);
+        this.store.dispatch(new AddCity(response.model));
         this.onNoClick(true);
       })
     }else{
       this.city.editCity(parseInt(this.row.id!),this.formCity.value).subscribe((response)=>{
         this.alertas.messageAlert(response.message);
+        this.store.dispatch(new AddCity(response.model));
         this.onNoClick(true);
       })
     }

@@ -23,9 +23,9 @@ export class UsersComponent implements OnInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  ngOnInit(): void {
-    this.loadData();
-  }
+    ngOnInit(): void {
+      this.loadData();
+    }
   loadData(){
     this.user.getUser().subscribe(response =>{
       this.dataSource = new MatTableDataSource(response.model);

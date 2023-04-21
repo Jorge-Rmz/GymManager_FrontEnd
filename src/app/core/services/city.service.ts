@@ -33,4 +33,8 @@ export class CityService {
     return this.http.put<CityResponse>(url,request, this.httpOptions);
   }
 
+  deleteCity(id: number):Observable<CityResponse>{
+    let url =  `${this.urlBase}api/city/`+id;
+    return this.http.delete<CityResponse>(url,this.httpOptions);
+  }
 }

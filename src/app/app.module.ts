@@ -9,6 +9,12 @@ import { NavbarComponent } from './share/navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { CookieModule } from 'ngx-cookie';
+import { NgxsModule } from '@ngxs/store';
+import { CitiesState } from './core/state/cities.state';
+import { environment } from 'src/environments/environment';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +28,12 @@ import { CookieModule } from 'ngx-cookie';
     MaterialModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    CookieModule.withOptions()
+    CookieModule.withOptions(),
+    NgxsModule.forRoot([CitiesState], {
+      developmentMode: !environment.production
+    }),
+    NgxsLoggerPluginModule.forRoot(),
+    NgxsReduxDevtoolsPluginModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
