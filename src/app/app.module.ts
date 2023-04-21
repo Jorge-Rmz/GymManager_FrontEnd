@@ -14,6 +14,8 @@ import { CitiesState } from './core/state/cities.state';
 import { environment } from 'src/environments/environment';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { MembershipStateState } from './core/state/membership/state/membership-state.state';
+
 
 @NgModule({
   declarations: [
@@ -29,7 +31,7 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
     BrowserAnimationsModule,
     HttpClientModule,
     CookieModule.withOptions(),
-    NgxsModule.forRoot([CitiesState], {
+    NgxsModule.forRoot([CitiesState, MembershipStateState], {
       developmentMode: !environment.production
     }),
     NgxsLoggerPluginModule.forRoot(),

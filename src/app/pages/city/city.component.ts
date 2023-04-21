@@ -20,7 +20,7 @@ import { AddCity } from 'src/app/core/state/cities.actions';
   styleUrls: ['./city.component.scss']
 })
 export class CityComponent implements OnInit{
-  @Select(CitiesState.getBooks)cities$!: Observable<City[]>;
+  @Select(CitiesState.getCities)cities$!: Observable<City[]>;
 
 
   displayedColumns: string[] = [ 'id', 'name', 'actions'];
@@ -28,7 +28,6 @@ export class CityComponent implements OnInit{
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
 
   constructor(
     private city:CityService,
@@ -78,9 +77,13 @@ export class CityComponent implements OnInit{
     }).then((result) => {
       if (result.isConfirmed) {
         this.city.deleteCity(parseInt(row.id!)).subscribe((response)=>{
-        this.alertas.messageAlert(response.message);
-        this.store.dispatch(new AddCity(response.model));
-        this.setValuesTable();
+        if(!response.hasError){
+          this.alertas.messageAlert(response.message);
+          this.store.dispatch(new AddCity(response.model));
+        }else{
+          this.alertas.erorrAlert('Error',response.message );
+        }
+          this.setValuesTable();
         })
       }
     })

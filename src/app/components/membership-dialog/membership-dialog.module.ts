@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MembershipDialogComponent } from './membership-dialog.component';
 import { MaterialModule } from 'src/material.module';
-import { DialogCityComponent } from './dialog-city.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 
 
 @NgModule({
   declarations: [
-    DialogCityComponent
+    MembershipDialogComponent
   ],
   imports: [
     CommonModule,
@@ -17,7 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule
   ],
   exports: [
-    DialogCityComponent
+    MembershipDialogComponent
   ]
 })
-export class DialogCityModule { }
+export class MembershipDialogModule { }

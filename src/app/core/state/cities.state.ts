@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext,Selector } from '@ngxs/store';
 import { AddCity } from './cities.actions';
-import { CityService } from '../services/city.service';
 import { City } from '../interfaces/city';
 
 export class CitiesStateModel {
@@ -18,15 +17,14 @@ const defaults = {
 })
 @Injectable()
 export class CitiesState {
-  constructor(private cityService: CityService) {}
 
   @Selector()
-  public static getBooks({items}:CitiesStateModel):City[]{
+  public static getCities({items}:CitiesStateModel):City[]{
     return items;
   }
   @Action(AddCity)
-  add({ getState, setState }: StateContext<CitiesStateModel>, { city }: AddCity) {
-    // const state = getState();
+  add({ setState }: StateContext<CitiesStateModel>, { city }: AddCity) {
+
     setState({ items: [ ...city ] });
   }
 
