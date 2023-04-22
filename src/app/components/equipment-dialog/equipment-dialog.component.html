@@ -1,0 +1,19 @@
+
+<form [formGroup]="formEquipment" (ngSubmit)="onSubmitForm()">
+  <h3  mat-dialog-title>{{isEdit ?'Edit Equipment' : 'Insert Equipment' }}</h3>
+  <div mat-dialog-content>
+    <mat-form-field class="form-outline form-white col-md-12 mb-4 example-full-width">
+      <mat-label>Name of equipment</mat-label>
+      <input type="text" matInput placeholder="Example Membership" formControlName="name">
+    </mat-form-field>
+    <mat-form-field class="form-outline form-white col-md-12 mb-4 example-full-width">
+      <mat-label>Description</mat-label>
+      <input type="text" matInput placeholder="Description of the equipment" formControlName="description">
+    </mat-form-field>
+
+    <div class="dialog-buttons">
+      <button mat-button type="button" (click)="onCancelClick()">Cancelar</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="formEquipment.invalid" >{{confirmButtonText}}</button>
+    </div>
+  </div>
+</form>

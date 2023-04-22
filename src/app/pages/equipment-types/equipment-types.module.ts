@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { EquipmentTypesRoutingModule } from './equipment-types-routing.module';
 import { EquipmentTypesComponent } from './equipment-types.component';
+import { MaterialModule } from 'src/material.module';
+import { EquipmentDialogModule } from 'src/app/components/equipment-dialog/equipment-dialog.module';
 
 
 @NgModule({
@@ -11,7 +13,9 @@ import { EquipmentTypesComponent } from './equipment-types.component';
   ],
   imports: [
     CommonModule,
-    EquipmentTypesRoutingModule
+    EquipmentTypesRoutingModule,
+    MaterialModule,
+    EquipmentDialogModule
   ]
 })
 export class EquipmentTypesModule { }

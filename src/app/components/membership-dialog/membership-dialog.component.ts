@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
@@ -16,13 +16,12 @@ export class MembershipDialogComponent implements OnInit {
   formMembership!: FormGroup;
   isEdit: boolean = false;
   confirmButtonText = 'Create Membership'
-  @Output() responseForm: EventEmitter<Membership> = new EventEmitter();
   value =  new Date().toISOString().substring(0, 16);
   membershipFields = {
     name: new FormControl('', [Validators.required]),
     cost: new FormControl('', [Validators.required]),
     createdOn: new FormControl('', [Validators.required]),
-    duration: new FormControl('', [Validators.required]),
+    duration: new FormControl('', [Validators.required, Validators.pattern('^(?:[1-9]|[1-3][0-9]|4[0-8])$')]),
   };
 
   constructor(
@@ -54,7 +53,6 @@ export class MembershipDialogComponent implements OnInit {
   }
 
   onSubmitForm(){
-    console.log(this.formMembership.value);
     if(!this.isEdit){
       this.membership.addMembership(this.formMembership.value).subscribe((response)=>{
         if(!response.hasError){
