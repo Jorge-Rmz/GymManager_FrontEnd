@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { MembersRoutingModule } from './members-routing.module';
 import { MembersComponent } from './members.component';
+import { MaterialModule } from 'src/material.module';
 
 
 @NgModule({
@@ -11,7 +12,9 @@ import { MembersComponent } from './members.component';
   ],
   imports: [
     CommonModule,
-    MembersRoutingModule
+    MembersRoutingModule,
+    MaterialModule,
+    
   ]
 })
 export class MembersModule { }

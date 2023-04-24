@@ -14,13 +14,13 @@ import { MembershipSet } from 'src/app/core/state/membership/state/membership-st
 })
 export class MembershipDialogComponent implements OnInit {
   formMembership!: FormGroup;
-  isEdit: boolean = false;
+  isEdit!: boolean;
   confirmButtonText = 'Create Membership'
-  value =  new Date().toISOString().substring(0, 16);
+  value = this.getCurrentDateTime();
   membershipFields = {
     name: new FormControl('', [Validators.required]),
     cost: new FormControl('', [Validators.required]),
-    createdOn: new FormControl('', [Validators.required]),
+    createdOn: new FormControl('', [Validators.required, ]),
     duration: new FormControl('', [Validators.required, Validators.pattern('^(?:[1-9]|[1-3][0-9]|4[0-8])$')]),
   };
 
@@ -64,7 +64,8 @@ export class MembershipDialogComponent implements OnInit {
         this.onNoClick(true);
       })
     }else{
-      this.membership.editMembership(this.row.id!,this.formMembership.value).subscribe((response)=>{
+      const membershipValues={...this.formMembership.value, createdOn:this.getCurrentDateTime()};
+      this.membership.editMembership(this.row.id!,membershipValues).subscribe((response)=>{
         if(!response.hasError){
           this.alertas.messageAlert(response.message);
           this.store.dispatch(new MembershipSet(response.model));
@@ -85,8 +86,18 @@ export class MembershipDialogComponent implements OnInit {
     this.dialogRef.close(closeData);
   }
 
-  fechaActual(){
-    return new Date().toISOString().substring(0, 16);
+  getCurrentDateTime(): string {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // usar padStart() para agregar 0 a los meses de un solo dígito
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    const hours = currentDate.getHours().toString().padStart(2, '0');
+    const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+    const seconds = currentDate.getSeconds().toString().padStart(2, '0');
+
+    const dateTimeString = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+    console.log(dateTimeString)
+    return dateTimeString;
   }
 
 

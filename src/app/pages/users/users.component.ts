@@ -17,7 +17,7 @@ export class UsersComponent implements OnInit{
     private user: AccountService,
     private dialog: MatDialog
   ){}
-  displayedColumns: string[] = [ 'userName', 'phoneNumber'];
+  displayedColumns: string[] = [ 'userName', 'phoneNumber', 'actions'];
   dataSource!: MatTableDataSource<User>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -42,6 +42,17 @@ export class UsersComponent implements OnInit{
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+  openDialog(){
+      
+  }
+
+  edit(row: User){
+    console.log(row)
+  }
+
+  delete(row: User){
+    console.log(row)
   }
 
 }

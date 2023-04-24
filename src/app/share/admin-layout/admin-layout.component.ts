@@ -13,4 +13,7 @@ export class AdminLayoutComponent implements OnInit{
   ngOnInit(): void {
 
   }
+  closeSession(){
+      console.log('codigo para cerrar sesion')
+  }
 }

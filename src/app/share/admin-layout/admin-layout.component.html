@@ -6,7 +6,7 @@
   <a [routerLink]="['/city']"><i class="fa fa-city"></i><span>City</span></a>
   <a [routerLink]="['/membership-types']"><i class="fas fa-award"></i><span>Membership</span></a>
   <a [routerLink]="['/users']"><i class="fa fa-fw fa-user"></i><span>Users</span></a>
-  <a [routerLink]="['/sign-out']"><i class="fa-solid fa-circle-xmark"></i> <span>Sing Out</span></a>
+  <a (click)="closeSession()" ><i class="fas fa-sign-out-alt"></i> <span>Sing Out</span></a>
 </div>
 <div class="main">
 <div class="container-fluid my-5">
