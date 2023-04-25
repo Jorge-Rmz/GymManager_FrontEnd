@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import { Subscription } from 'rxjs';
+import { UserDialogComponent } from 'src/app/components/user-dialog/user-dialog.component';
 import { User } from 'src/app/core/interfaces/user';
 import { AccountService } from 'src/app/core/services/account.service';
 
@@ -13,6 +14,13 @@ import { AccountService } from 'src/app/core/services/account.service';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit{
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+  dataSubscription?: Subscription;
+  rowSelected: User | undefined ;
+  newUser = false;
+  
+
   constructor(
     private user: AccountService,
     private dialog: MatDialog
@@ -20,12 +28,11 @@ export class UsersComponent implements OnInit{
   displayedColumns: string[] = [ 'userName', 'phoneNumber', 'actions'];
   dataSource!: MatTableDataSource<User>;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  
 
-    ngOnInit(): void {
-      this.loadData();
-    }
+  ngOnInit(): void {
+    this.loadData();
+  }
   loadData(){
     this.user.getUser().subscribe(response =>{
       this.dataSource = new MatTableDataSource(response.model);
@@ -43,16 +50,26 @@ export class UsersComponent implements OnInit{
       this.dataSource.paginator.firstPage();
     }
   }
-  openDialog(){
-      
+  openModal(){
+    this.newUser = true;
   }
 
   edit(row: User){
-    console.log(row)
+    this.rowSelected = row;
   }
 
   delete(row: User){
-    console.log(row)
+    this.newUser = false;
+    this.rowSelected = row;
+  }
+
+  onCloseHandled(dataModal: any) {
+    this.rowSelected =undefined;
+    this.newUser = false;
+    if(dataModal.refreshData){
+      // this.dataSubscription?.unsubscribe();
+      this.loadData();
+    }
   }
 
 }

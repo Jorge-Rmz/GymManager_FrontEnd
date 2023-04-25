@@ -24,6 +24,7 @@
     "@ngxs/logger-plugin": "^3.8.0-dev.master-c86074a",
     "@ngxs/store": "^3.8.0-dev.master-c86074a",
     "@syncfusion/ej2-angular-grids": "^21.1.39-ngcc",
+    "@types/bootstrap": "^5.2.6",
     "bootstrap": "^5.2.3",
     "jquery": "^3.6.4",
     "ngx-cookie": "^6.0.1",

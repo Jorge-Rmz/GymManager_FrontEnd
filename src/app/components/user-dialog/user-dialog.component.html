@@ -1,1 +1,17 @@
-
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="staticBackdropLabel">Editor de Usuario</h2>
+        <button type="button" class="btn-close" (click)="cerrarModal()"></button>
+      </div>
+      <div class="modal-body">
+        <app-login-form [isSignUp]="true"  [dataUser] = "row"
+        [confirmButtonText] = "confirmButtonText" (responseForm)="respForm($event)"
+        (cancelForm) = "cancelForm($event)">
+        </app-login-form>
+      </div>
+    </div>
+  </div>
+</div>

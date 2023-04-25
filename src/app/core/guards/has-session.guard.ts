@@ -17,7 +17,7 @@ export class HasSessionGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     let session = this.cookie.get('session');
-    if(session == ""){
+    if(!session){
       this.router.navigate(['/sign-in']);
     }
     return true;

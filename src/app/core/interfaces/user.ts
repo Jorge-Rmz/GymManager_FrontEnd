@@ -1,4 +1,5 @@
 export interface SignUp{
+  id?:string
   email:string,
   password:string,
   phoneNumber: string,
@@ -10,7 +11,9 @@ export interface SignIn{
 export interface Login{
   userName:string,
   password:string,
+  phoneNumber?:string,
 }
+
 export interface User{
   id?: string;
   userName:string,

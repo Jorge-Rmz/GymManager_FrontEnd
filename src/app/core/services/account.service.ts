@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Login, ResponseModelLogin, ResponseModelSignUp, SignUp, UserResponse } from '../interfaces/user';
+import { Login, ResponseModelLogin, ResponseModelSignUp, SignUp, User, UserResponse } from '../interfaces/user';
 import { CookieService } from 'ngx-cookie';
 
 
@@ -29,15 +29,29 @@ export class AccountService {
     let url =  `${this.urlBase}api/users`;
     return this.http.post<ResponseModelSignUp>(url,request, this.httpOptions);
   }
-
-  getUser():Observable <UserResponse>{
-    let url =  `${this.urlBase}api/users`;
+  header(){
     let httpOptionsLogin = {
       headers: new HttpHeaders({
         'Content-Type':'application/json',
         'Authorization': "Bearer " + this.cookie.get('session')!,
       })
     }
-    return this.http.get<UserResponse>(url, httpOptionsLogin);
+    return httpOptionsLogin;
   }
+
+  getUser():Observable <UserResponse>{
+    let url =  `${this.urlBase}api/users`;
+    
+    return this.http.get<UserResponse>(url, this.header());
+  }
+
+  editUser(id: string, request: Login):Observable<UserResponse>{
+    let url =  `${this.urlBase}api/users/`+id;
+    return this.http.put<UserResponse>(url,request, this.header());
+  }
+
+  // deleteCity(id: number):Observable<CityResponse>{
+  //   let url =  `${this.urlBase}api/city/`+id;
+  //   return this.http.delete<CityResponse>(url,this.httpOptions);
+  // }
 }
