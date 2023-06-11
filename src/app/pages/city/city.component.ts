@@ -76,7 +76,7 @@ export class CityComponent implements OnInit{
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.city.deleteCity(parseInt(row.id!)).subscribe((response)=>{
+        this.city.deleteCity(row.id!).subscribe((response)=>{
         if(!response.hasError){
           this.alertas.messageAlert(response.message);
           this.store.dispatch(new AddCity(response.model));

@@ -6,7 +6,7 @@ export interface MembersResponse {
 }
 
 export interface Members {
-  id:               number;
+  id?:               number;
   name:             string;
   lastName:         string;
   birthDay:         Date;
@@ -16,4 +16,18 @@ export interface Members {
   membershipEnd:    Date;
   cityId:           number;
   membershipTypeId: number;
+}
+
+
+export interface MembersTem {
+  id?:               number;
+  name:             string;
+  lastName:         string;
+  birthDay:         Date;
+  email:            string;
+  allowNewsLetter:  boolean;
+  registeredOn:     Date;
+  membershipEnd:    Date;
+  cityId:           string;
+  membershipTypeId: string;
 }

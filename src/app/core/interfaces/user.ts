@@ -1,7 +1,7 @@
 export interface SignUp{
   id?:string
   email:string,
-  password:string,
+  password?:string,
   phoneNumber: string,
 }
 export interface SignIn{

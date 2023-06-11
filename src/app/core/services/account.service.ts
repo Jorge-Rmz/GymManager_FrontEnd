@@ -41,17 +41,17 @@ export class AccountService {
 
   getUser():Observable <UserResponse>{
     let url =  `${this.urlBase}api/users`;
-    
+
     return this.http.get<UserResponse>(url, this.header());
   }
 
-  editUser(id: string, request: Login):Observable<UserResponse>{
+  editUser(id: string, request: SignUp):Observable<UserResponse>{
     let url =  `${this.urlBase}api/users/`+id;
     return this.http.put<UserResponse>(url,request, this.header());
   }
 
-  // deleteCity(id: number):Observable<CityResponse>{
-  //   let url =  `${this.urlBase}api/city/`+id;
-  //   return this.http.delete<CityResponse>(url,this.httpOptions);
-  // }
+  deleteUser(id: string):Observable<UserResponse>{
+    let url =  `${this.urlBase}api/users/`+id;
+    return this.http.delete<UserResponse>(url,this.httpOptions);
+  }
 }

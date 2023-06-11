@@ -54,6 +54,9 @@ export class LoginFormComponent implements OnChanges {
     }else{
       this.loggedIn = false;
     }
+    if(!!this.dataUser){
+      this.formUser.removeControl('password');
+    }
   }
 
   onSubmitForm() {

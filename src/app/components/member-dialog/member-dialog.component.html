@@ -1,0 +1,53 @@
+<form [formGroup]="formMember" (ngSubmit)="onSubmitForm()">
+  <h3 mat-dialog-title>{{isEdit ? 'Edit Member' : 'Insert Member'}}</h3>
+  <div mat-dialog-content>
+    <mat-form-field class="form-outline form-white col-md-6 mb-3 example-full-width">
+      <mat-label>Name</mat-label>
+      <input type="text" matInput placeholder="John" formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field class="form-outline form-white col-md-6 mb-3 example-full-width">
+      <mat-label>Last Name</mat-label>
+      <input type="text" matInput placeholder="Doe" formControlName="lastName">
+    </mat-form-field>
+
+    <mat-form-field class="form-outline form-white col-md-6 mb-3 example-full-width">
+      <mat-label>Birth Day</mat-label>
+      <input type="text" matInput [matDatepicker]="birthDayPicker" formControlName="birthDay" placeholder="MM/DD/YYYY">
+      <mat-datepicker-toggle matSuffix [for]="birthDayPicker"></mat-datepicker-toggle>
+      <mat-datepicker #birthDayPicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="form-outline form-white col-md-6 mb-3 example-full-width">
+      <mat-label>Email</mat-label>
+      <input type="email" matInput placeholder="example@example.com" formControlName="email">
+    </mat-form-field>
+
+
+    <mat-form-field class="form-outline form-white col-md-6 mb-3 example-full-width">
+      <mat-label>City Id</mat-label>
+      <mat-select formControlName="cityId" placeholder="Select City">
+        <mat-option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="form-outline form-white col-md-6 mb-3 example-full-width">
+      <mat-label>MembershipType Id</mat-label>
+      <mat-select formControlName="membershipTypeId" placeholder="Select Membership">
+        <mat-option *ngFor="let membershipType of membershipTypes" [value]="membershipType.id">
+          {{ membershipType.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+
+    <mat-checkbox formControlName="newsletter">You want to receive Newsletter</mat-checkbox>
+
+    <div class="dialog-buttons">
+      <button mat-button type="button" (click)="onCancelClick()">Cancelar</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="formMember.invalid">{{confirmButtonText}}</button>
+    </div>
+
+  </div>
+
+</form>

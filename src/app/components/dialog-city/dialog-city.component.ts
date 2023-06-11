@@ -61,7 +61,7 @@ export class DialogCityComponent implements OnInit{
         this.onNoClick(true);
       })
     }else{
-      this.city.editCity(parseInt(this.row.id!),this.formCity.value).subscribe((response)=>{
+      this.city.editCity(this.row.id!,this.formCity.value).subscribe((response)=>{
         if(!response.hasError){
           this.alertas.messageAlert(response.message);
           this.store.dispatch(new AddCity(response.model));

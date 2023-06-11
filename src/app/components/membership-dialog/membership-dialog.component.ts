@@ -96,7 +96,6 @@ export class MembershipDialogComponent implements OnInit {
     const seconds = currentDate.getSeconds().toString().padStart(2, '0');
 
     const dateTimeString = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
-    console.log(dateTimeString)
     return dateTimeString;
   }
 

@@ -27,9 +27,9 @@ export class UserDialogComponent implements OnInit {
       this.myModal.show();
     if(!!this.row){
       this.isEdit = true;
-      this.confirmButtonText = 'Edit Membership';
+      this.confirmButtonText = 'Edit User';
     }else{
-      this.confirmButtonText = 'Create Membership';
+      this.confirmButtonText = 'Create User';
       this.isEdit = false;
     }
   }
@@ -38,19 +38,33 @@ export class UserDialogComponent implements OnInit {
 
     console.log(response);
 
-    let request = {phoneNumber: response.phoneNumber ,password: response.password, userName: response.email};
+    //let request = {phoneNumber: response.phoneNumber,password: response.password, userName: response.email};
     if(!!this.row && this.row.id){
-      this.user.editUser(this.row.id,request).subscribe(
+      this.user.editUser(this.row.id,response).subscribe(
       (resp)=>{
         if(!resp.hasError){
-          console.log(resp.message);
-          //this.alertasUser.userAlert("Actualizado",resp.message, 'success');
+          // console.log(resp.message);
+          this.alertas.messageAlert(resp.message);
+
+          this.cerrarModal(true);
+        }else{
+          this.alertas.erorrAlert('Error',resp.message);
           this.cerrarModal(true);
         }
       }
       );
     }else{
-      
+      this.user.SingUp(response).subscribe(
+        (resp)=>{
+          if(!resp.hasError){
+          this.alertas.messageAlert(resp.message);
+          // console.log(resp.message);
+            this.cerrarModal(true);
+          }else{
+            this.alertas.erorrAlert('Error',resp.model[0].description);
+          }
+        }
+        );
     }
   }
 

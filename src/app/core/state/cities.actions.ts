@@ -5,3 +5,7 @@ export class AddCity{
   constructor(public city: City[]) {}
 }
 
+export class GetCityById {
+  static readonly type = '[City] Get by ID';
+  constructor(public id: number) {}
+}

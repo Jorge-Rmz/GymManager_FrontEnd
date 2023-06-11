@@ -9,10 +9,12 @@
     <input type="email" matInput placeholder="pat@example.com" formControlName="email">
   </mat-form-field>
 
-  <mat-form-field class="form-outline form-white col-md-12 mb-4">
-    <mat-label>Password</mat-label>
-    <input type="password" matInput placeholder="your password"  formControlName="password">
-  </mat-form-field>
+
+    <mat-form-field class="form-outline form-white col-md-12 mb-4" *ngIf="!dataUser">
+      <mat-label>Password</mat-label>
+      <input type="password" matInput placeholder="your password"  formControlName="password">
+    </mat-form-field>
+
 
   <div *ngIf="isSignUp === true">
     <mat-form-field  class="form-outline form-white col-md-12 mb-4">
@@ -24,7 +26,7 @@
   <div class="row">
     <div class="container-fluid mb-4">
       <button *ngIf="loggedIn == false"  mat-button class=" btn btn-lg px-5 pr-2 mr-2" color="warn" (click)="cancelBtn()">Cancelar</button>
-      <button class="btn {{ loggedIn?'btn-outline-light':''}} btn-lg px-5"  type="submit" [disabled]="formUser.invalid">{{isSignUp ? 'Sign Up':'Login' }}</button>
+      <button class="btn {{ loggedIn?'btn-outline-light':''}} btn-lg px-5"  type="submit" [disabled]="formUser.invalid">{{confirmButtonText }}</button>
     </div>
   </div>
 </form>

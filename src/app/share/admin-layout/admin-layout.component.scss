@@ -4,6 +4,7 @@ body {
   height: 100vh;
   margin: 0;
 }
+
 .sidebar {
   height: 100%;
   width: 160px;
@@ -11,9 +12,10 @@ body {
   z-index: 1;
   top: 0;
   left: 0;
-  background-image: linear-gradient(30deg , #1b3255, #40b050);
+  background-image: linear-gradient(30deg, #1b3255, #40b050);
   overflow-x: hidden;
   padding-top: 16px;
+  transition: width 0.3s; /* Agregamos una transición suave al cambiar el ancho */
 }
 
 .sidebar a {
@@ -31,6 +33,7 @@ body {
 .main {
   margin-left: 160px; /* Same as the width of the sidenav */
   padding: 0px 10px;
+  transition: margin-left 0.3s; /* Agregamos una transición suave al cambiar el margen izquierdo */
 }
 
 @media screen and (max-height: 450px) {
@@ -41,30 +44,30 @@ body {
     font-size: 18px;
   }
 }
-@media screen and (max-height: 450px) {
-  .sidebar {
-    padding-top: 15px;
-  }
-  .sidebar a {
-    font-size: 18px;
-  }
-}
+
 @media screen and (max-width: 650px) {
-    .sidebar {
-        width: 60px;
-    }
-    .sidebar span{
-        display: none;
-    }
-
-    .sidebar:hover {
-        width: 200px;
-    }
-    .sidebar:hover span {
-        display: initial;
-    }
-    .main {
-        margin-left: 80px;
-    }
-
+  .sidebar {
+    width: 60px;
   }
+  .sidebar span {
+    display: none;
+  }
+
+  .sidebar:hover {
+    width: 200px;
+  }
+  .sidebar:hover span {
+    display: initial;
+  }
+  .main {
+    margin-left: 80px;
+  }
+
+  /* Agregamos reglas adicionales para el ancho de 650px */
+  @media screen and (max-width: 650px) {
+    .sidebar:hover ~ .main {
+      margin-left: 220px;
+      transition: margin-left 0.3s;
+    }
+  }
+}
