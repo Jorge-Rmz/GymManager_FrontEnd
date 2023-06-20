@@ -22,7 +22,6 @@ import { AddCity } from 'src/app/core/state/cities.actions';
 export class CityComponent implements OnInit{
   @Select(CitiesState.getCities)cities$!: Observable<City[]>;
 
-
   displayedColumns: string[] = [ 'id', 'name', 'actions'];
   dataSource!: MatTableDataSource<City>;
 

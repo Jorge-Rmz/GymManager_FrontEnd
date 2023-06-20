@@ -15,6 +15,7 @@ const defaults = {
   name: 'membershipState',
   defaults
 })
+
 @Injectable()
 export class MembershipStateState {
   @Selector()

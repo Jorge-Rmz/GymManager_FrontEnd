@@ -10,8 +10,8 @@ import { CityService } from 'src/app/core/services/city.service';
 import { MembershipTypesService } from 'src/app/core/services/membership-types.service';
 import { City } from 'src/app/core/interfaces/city';
 import { Membership } from 'src/app/core/interfaces/membership';
-
-
+import { forkJoin } from 'rxjs';
+import { MemberSet } from 'src/app/core/state/member/member.actions';
 
 @Component({
   selector: 'app-member-dialog',
@@ -24,7 +24,7 @@ export class MemberDialogComponent implements OnInit{
   formMember!: FormGroup;
   isEdit!: boolean;
   confirmButtonText = 'Create Member';
-  
+
 
   memberFields = {
     name: new FormControl('', [Validators.required]),
@@ -33,7 +33,6 @@ export class MemberDialogComponent implements OnInit{
     email: new FormControl('', [Validators.required, Validators.email]),
     newsletter: new FormControl(false),
     registeredOn: new FormControl('', [Validators.required]),
-    
     cityId: new FormControl('', [Validators.required, Validators.pattern('^[1-9][0-9]*$')]),
     membershipTypeId: new FormControl('', [Validators.required, Validators.pattern('^[1-9][0-9]*$')]),
   };
@@ -42,7 +41,7 @@ export class MemberDialogComponent implements OnInit{
     private fb: FormBuilder,
     private member:MembersService,
     private dialogRef: MatDialogRef<MemberDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public row: Members,
+    @Inject(MAT_DIALOG_DATA) public data: { row: Members, membershipId: number, cityId:number },
     private alertas: SwalAlertsService,
     private city: CityService,
     private membership: MembershipTypesService,
@@ -50,44 +49,86 @@ export class MemberDialogComponent implements OnInit{
   ){ }
 
   ngOnInit(): void {
-    const currentDate = new Date(); // Obtener la fecha actual
-    const formattedDate = currentDate.toISOString().substring(0, 16); // Formatear la fecha a 'yyyy-MM-ddTHH:mm'
-  
-    this.membership.getMembershipTypesAll().subscribe(response =>{
-      console.log(response);
-      this.membershipTypes = response.model;
-    });
-    
-    this.memberFields['registeredOn'].disable();
-    this.city.getCityAll().subscribe(response =>{
-      console.log(response);
-      this.cities = response.model;
-    });
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().substring(0, 16);
 
-    this.formMember = this.fb.group({
-      ...this.memberFields,
-      membershipEnd: new FormControl(formattedDate, [Validators.required])
+    const membershipTypes$ = this.membership.getMembershipTypesAll();
+    const cities$ = this.city.getCityAll();
+
+    forkJoin([membershipTypes$, cities$]).subscribe(([membershipResponse, cityResponse]) => {
+      console.log(membershipResponse);
+      console.log(cityResponse);
+
+      this.membershipTypes = membershipResponse.model;
+      this.cities = cityResponse.model;
+
+      if (!!this.data.row) {
+        this.isEdit = true;
+        this.confirmButtonText = 'Edit Member';
+
+        const membershipId = this.data.membershipId;
+        console.log('membership id is: ', membershipId);
+
+        const selectedMembershipType = this.membershipTypes.find(membershipType => membershipType.id === membershipId);
+
+        console.log('membership select is: ', selectedMembershipType);
+
+        this.formMember.patchValue({
+          ...this.data.row,
+          newsletter: this.data.row.allowNewsLetter,
+          membershipEnd: formattedDate,
+          membershipTypeId: selectedMembershipType ? selectedMembershipType.id : null,
+          cityId: this.data.cityId // Set the cityId directly
+        });
+      } else {
+        this.confirmButtonText = 'Create Member';
+        this.isEdit = false;
+
+        this.formMember.get('membershipEnd')?.setValue(formattedDate);
       }
-    );
+    });
 
-    if(!!this.row){
-      this.isEdit = true;
-      this.confirmButtonText = 'Edit Membership';
-      this.formMember.patchValue(this.row);
-    }else{
-      this.confirmButtonText = 'Create Membership';
-      this.isEdit = false;
-    }
+    this.memberFields['registeredOn'].disable();
+    this.formMember = this.fb.group({
+      ...this.memberFields
+    });
   }
+
 
   onCancelClick(): void {
     this.dialogRef.close();
   }
 
   onSubmitForm(){
-    const memberValues={...this.formMember.value, registeredOn:this.getCurrentDateTime()};
-    
-    console.log(memberValues);
+
+    if(!this.isEdit){
+      const memberValues={...this.formMember.value, registeredOn:this.getCurrentDateTime(),
+        allowNewsLetter: this.formMember.value.newsletter
+      };
+      this.member.addMembers(memberValues).subscribe((response)=>{
+        if(!response.hasError){
+          this.alertas.messageAlert(response.message);
+          this.store.dispatch(new MemberSet(response.model));
+        }else{
+          this.alertas.erorrAlert('Error',response.message);
+        }
+        this.onNoClick(true);
+      })
+    }else{
+      const memberValues={...this.formMember.value, registeredOn:this.getCurrentDateTime(),
+        allowNewsLetter: this.formMember.value.newsletter
+      };
+
+      this.member.editMembers(this.data.row.id!,memberValues).subscribe((response)=>{
+        if(!response.hasError){
+          this.alertas.messageAlert(response.message);
+          this.store.dispatch(new MemberSet(response.model));
+        }else{
+          this.alertas.erorrAlert('Error',response.message);
+        }
+        this.onNoClick(true);
+      })
+    }
   }
 
   onNoClick(refresh: boolean = false): void {
@@ -110,5 +151,8 @@ export class MemberDialogComponent implements OnInit{
     const dateTimeString = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
     return dateTimeString;
   }
+
+
+
 
 }

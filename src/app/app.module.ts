@@ -17,6 +17,8 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { MembershipStateState } from './core/state/membership/state/membership-state.state';
 import { EquipmentTypesState } from './core/state/equipment/state/equipment-types.state';
 import { UserState } from './core/state/user/user.state';
+import { MemberState } from './core/state/member/member.state';
+import { AttendanceState } from './core/state/attendance/attendance.state';
 
 
 @NgModule({
@@ -33,8 +35,8 @@ import { UserState } from './core/state/user/user.state';
     BrowserAnimationsModule,
     HttpClientModule,
     CookieModule.withOptions(),
-    NgxsModule.forRoot([CitiesState, MembershipStateState, 
-      UserState, EquipmentTypesState], {
+    NgxsModule.forRoot([CitiesState, MembershipStateState,
+      UserState, EquipmentTypesState,MemberState, AttendanceState,], {
       developmentMode: !environment.production
     }),
     NgxsLoggerPluginModule.forRoot(),
