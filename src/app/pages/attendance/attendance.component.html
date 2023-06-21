@@ -1,1 +1,59 @@
-<p>attendance works!</p>
+<mat-form-field>
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Alfredo O" #input>
+</mat-form-field>
+
+<!-- <button mat-raised-button (click)="openDialog()" color="primary">Add City</button> -->
+
+<div class="mat-elevation-z8 my-3">
+  <table mat-table [dataSource]="dataSource" matSort >
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> # </th>
+      <td mat-cell *matCellDef="let row"> {{row.id}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+      <td mat-cell *matCellDef="let row"> {{row.member.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+      <td mat-cell *matCellDef="let row"> {{row.member.lastName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="membershipEnd">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Membership End </th>
+      <td mat-cell *matCellDef="let row"> {{row.member.membershipEnd}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dateIn">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Date In </th>
+      <td mat-cell *matCellDef="let row"> {{row.dateIn}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dateOut">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Out </th>
+      <td mat-cell *matCellDef="let row"> {{row.dateOut}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+      <td mat-cell *matCellDef="let row">
+        <i (click)="edit(row)" class="fa-sharp fa-solid fa-pen-to-square fa-lg mx-3" style="color: #599b17;"></i>
+        <i (click)="delete(row)" class="fa-sharp fa-solid fa-trash fa-lg" style="color: #e10510;"></i>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="7">No data matching the filter "{{input.value}}"</td>
+    </tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+</div>
+

@@ -23,6 +23,7 @@ export class CityComponent implements OnInit{
   @Select(CitiesState.getCities)cities$!: Observable<City[]>;
 
   displayedColumns: string[] = [ 'id', 'name', 'actions'];
+
   dataSource!: MatTableDataSource<City>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

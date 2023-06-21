@@ -19,7 +19,9 @@ import { AttendanceService } from 'src/app/core/services/attendance.service';
 export class AttendanceComponent implements OnInit {
   @Select(AttendanceState.getCities)attendance$!: Observable<Attendance[]>;
 
-  displayedColumns: string[] = [ 'id', 'name', 'actions'];
+
+  displayedColumns: string[] = [ 'id', 'name','lastName','membershipEnd','dateIn','dateOut', 'actions'];
+
   dataSource!: MatTableDataSource<Attendance>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -36,10 +38,29 @@ export class AttendanceComponent implements OnInit {
   }
   loadData(){
     this.attendance.getAttendanceAll().subscribe((response )=>{
-      console.log(response.model);
+      this.dataSource = new MatTableDataSource(response.model);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
       // this.store.dispatch(new AddCity(response.model));
     });
   }
-  
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  edit(row:Attendance){
+
+  }
+  delete(row:Attendance){
+
+  }
+  openDialog(){
+
+  }
 
 }
