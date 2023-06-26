@@ -9,7 +9,7 @@ import { Attendance, AttendanceResponse } from '../interfaces/attendance';
 })
 export class AttendanceService {
 
-  urlBase:string ='https://localhost:7025/api/Attendance';
+  urlBase:string ='https://localhost:7025/api/attendance';
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':'application/json',
@@ -26,12 +26,17 @@ export class AttendanceService {
   getAttendanceAll(): Observable<AttendanceResponse>{
     return this.http.get<AttendanceResponse>(this.urlBase, this.httpOptions);
   }
-  addAttendance(request: Attendance):Observable<AttendanceResponse>{
-    return this.http.post<AttendanceResponse>(this.urlBase,request, this.httpOptions);
+  getAttendanceToday(): Observable<AttendanceResponse>{
+    return this.http.get<AttendanceResponse>(this.urlBase+'/today', this.httpOptions);
+  }
+  
+
+  addAttendance(id: number):Observable<AttendanceResponse>{
+    return this.http.post<AttendanceResponse>(this.urlBase+`/${id}`, this.httpOptions);
   }
 
-  editAttendance(id: number, request: Attendance):Observable<AttendanceResponse>{
-    return this.http.put<AttendanceResponse>(this.urlBase+`/${id}`,request, this.httpOptions);
+  editAttendance(id: number):Observable<AttendanceResponse>{
+    return this.http.put<AttendanceResponse>(this.urlBase+`/${id}`, this.httpOptions);
   }
 
   deleteAttendance(id: number):Observable<AttendanceResponse>{

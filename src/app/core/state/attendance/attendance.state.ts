@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { AddAttendance } from './attendance.actions';
+import { AddAttendance, AddAttendanceToday } from './attendance.actions';
 import { Attendance } from '../../interfaces/attendance';
 
 export class AttendanceStateModel {
   public items: Attendance[]= [];
+  public itemsToday: Attendance[]= [];
 }
 
 const defaults = {
-  items: []
+  items: [],
+  itemsToday:[],
 };
 
 @State<AttendanceStateModel>({
@@ -20,12 +22,25 @@ const defaults = {
 
 export class AttendanceState {
   @Selector()
-  public static getCities({items}:AttendanceStateModel):Attendance[]{
+  public static getAttendance({items}:AttendanceStateModel):Attendance[]{
     return items;
   }
 
+  @Selector()
+  public static getAttendanceToday({itemsToday}:AttendanceStateModel):Attendance[]{
+    return itemsToday;
+  }
+
   @Action(AddAttendance)
-  add({ setState }: StateContext<AttendanceStateModel>, { attendance }: AddAttendance) {
-    setState({ items: [ ...attendance ] });
+  add({ setState,  getState }: StateContext<AttendanceStateModel>, { attendance }: AddAttendance) {
+    
+    const state = getState();
+    setState({ items: [...attendance], itemsToday: [...state.itemsToday] });
+  }
+
+  @Action(AddAttendanceToday)
+  addToday({ setState,  getState }: StateContext<AttendanceStateModel>, { attendance }: AddAttendanceToday) {
+    const state = getState();
+    setState({ items: [...state.items], itemsToday: [...attendance] });
   }
 }

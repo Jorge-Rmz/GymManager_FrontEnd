@@ -22,6 +22,9 @@ import { map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { MemberState } from 'src/app/core/state/member/member.state';
 import { MemberSet } from 'src/app/core/state/member/member.actions';
+import { AttendanceService } from 'src/app/core/services/attendance.service';
+import { Router } from '@angular/router';
+import { AddAttendance } from 'src/app/core/state/attendance/attendance.actions';
 
 
 @Component({
@@ -50,6 +53,8 @@ export class MembersComponent implements OnInit {
     private city: CityService,
     private membership: MembershipTypesService,
     private store: Store,
+    private attendance: AttendanceService,
+    private router: Router,
   ){}
   ngOnInit(): void {
     this.loadData();
@@ -110,8 +115,6 @@ export class MembersComponent implements OnInit {
     });
   }
 
-
-
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -119,7 +122,6 @@ export class MembersComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
 
   openDialog(){
     const dialogRef = this.dialog.open(MemberDialogComponent, {
@@ -130,8 +132,8 @@ export class MembersComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.setValuesTable();
     });
-
   }
+
   edit(row:MemberEDA){
     // console.log("resultados al editar ", row);
     const dialogRef = this.dialog.open(MemberDialogComponent, {
@@ -143,6 +145,7 @@ export class MembersComponent implements OnInit {
       this.setValuesTable();
     });
   }
+
   delete(row:Members){
     Swal.fire({
       title: 'Are you sure you want to delete? ',
@@ -167,7 +170,6 @@ export class MembersComponent implements OnInit {
     })
   }
 
-
   setValuesTable(){
     let dataMembers :MemberEDA[] =[];
     this.members$.subscribe((response) => {
@@ -180,7 +182,31 @@ export class MembersComponent implements OnInit {
   }
 
 
-  check(){
-
+  check(row: Members){
+    Swal.fire({
+      title: 'Are you sure you want to register this member?',
+      text: "Register Member: " + row.name + " " +row.lastName +"!",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, register it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.attendance.addAttendance(row.id!).subscribe((response)=>{
+        if(!response.hasError){
+          this.alertas.messageAlert(response.message);
+          this.router.navigate(['/attendance', { parametro: 2 }]);
+          this.store.dispatch(new AddAttendance(response.model));
+        }else{
+          this.alertas.erorrAlert('Error',response.message);
+        }
+          this.setValuesTable();
+        })
+      }
+    })
   }
+  
+
+  
 }
