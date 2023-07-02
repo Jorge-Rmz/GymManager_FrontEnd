@@ -7,6 +7,6 @@ export class AddAttendance{
 
 export class AddAttendanceToday{
   static readonly type = '[Attendance] Add item Today';
-  constructor(public attendance: Attendance[]) {}
+  constructor(public attendanceToday: Attendance[]) {}
 }
 

@@ -3,7 +3,8 @@
   <input matInput (keyup)="applyFilter($event)" placeholder="Alfredo O" #input>
 </mat-form-field>
 
-<button mat-raised-button (click)="changeToday()" color="primary">Attendance Today</button>
+<button mat-raised-button class="mx-3" (click)="changeToday()" color="primary">Attendance Today</button>
+<button mat-raised-button (click)="loadData()" color="primary">Attendance of All </button>
 
 <div class="mat-elevation-z8 my-3">
   <table mat-table [dataSource]="dataSource" matSort >

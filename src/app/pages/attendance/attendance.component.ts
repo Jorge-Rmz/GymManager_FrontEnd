@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { AttendanceState } from 'src/app/core/state/attendance/attendance.state';
 import { Attendance } from 'src/app/core/interfaces/attendance';
 import { AttendanceService } from 'src/app/core/services/attendance.service';
-import { AddAttendance } from 'src/app/core/state/attendance/attendance.actions';
+import { AddAttendance, AddAttendanceToday } from 'src/app/core/state/attendance/attendance.actions';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -19,57 +19,61 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./attendance.component.scss']
 })
 export class AttendanceComponent implements OnInit {
+  
   @Select(AttendanceState.getAttendance)attendance$!: Observable<Attendance[]>;
+  @Select(AttendanceState.getAttendanceToday)attendanceToday$!: Observable<Attendance[]>;
 
-
-  displayedColumns: string[] = [ 'id', 'name','lastName','membershipEnd','dateIn','dateOut', 'actions'];
+  displayedColumns: string[] = ['id', 'name', 'lastName', 'membershipEnd', 'dateIn', 'dateOut', 'actions'];
 
   dataSource!: MatTableDataSource<Attendance>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  private isToday:boolean = false;
+  private isToday: boolean = false;
 
   constructor(
-    private attendance:AttendanceService,
+    private attendance: AttendanceService,
     private dialog: MatDialog,
     private alertas: SwalAlertsService,
-    private store:Store,
-    private route: ActivatedRoute,){  }
+    private store: Store,
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
+    this.handleRouteParams();
+  }
+
+  handleRouteParams(): void {
     this.route.params.subscribe(params => {
       const parametro = params['parametro'];
-      if(parametro == 2){
+      if (parametro == 2) {
         this.isToday = true;
         this.changeToday();
-      }else{
+      } else {
         this.isToday = false;
         this.loadData();
       }
-      // console.log('parametro pasado es: ', parametro);
-      // Utiliza el valor del parámetro como necesites en tu componente
     });
   }
-  loadData(){
-    this.attendance.getAttendanceAll().subscribe((response )=>{
-      this.dataSource = new MatTableDataSource(response.model);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      this.store.dispatch(new AddAttendance(response.model));
-    });
-  }
-  changeToday(){
-    this.attendance.getAttendanceToday().subscribe((response )=>{
-      this.dataSource = new MatTableDataSource(response.model);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+
+  loadData(): void {
+    this.isToday = false;
+    this.attendance.getAttendanceAll().subscribe((response) => {
+      this.updateDataSource(response.model);
       this.store.dispatch(new AddAttendance(response.model));
     });
   }
 
-  applyFilter(event: Event) {
+  changeToday(): void {
+    this.isToday = true;
+    this.attendance.getAttendanceToday().subscribe((response) => {
+      this.updateDataSource(response.model);
+      this.store.dispatch(new AddAttendanceToday(response.model));
+    });
+  }
+
+  applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
     if (this.dataSource.paginator) {
@@ -77,8 +81,8 @@ export class AttendanceComponent implements OnInit {
     }
   }
 
-  delete(row:Attendance){
-    Swal.fire({
+  async delete(row: Attendance): Promise<void> {
+    const result = await Swal.fire({
       title: 'Are you sure you want to delete? ',
       text: "You won't be able to revert this!",
       icon: 'warning',
@@ -86,57 +90,71 @@ export class AttendanceComponent implements OnInit {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.attendance.deleteAttendance(row.id).subscribe((response)=>{
-        if(!response.hasError){
+    });
+    if (result.isConfirmed) {
+      this.attendance.deleteAttendance(row.id).subscribe((response) => {
+        if (!response.hasError) {
           this.alertas.messageAlert(response.message);
-          this.store.dispatch(new AddAttendance(response.model));
-        }else{
-          this.alertas.erorrAlert('Error',response.message );
-        }{{}}
+          if (this.isToday) {
+            this.changeToday();
+          } else {
+            this.store.dispatch(new AddAttendance(response.model));
+          }
+        } else {
+          this.alertas.erorrAlert('Error', response.message);
+        }
+        if (!this.isToday) {
           this.setValuesTable();
-        })
-      }
-    })
+        }
+      });
+    }
   }
 
-  check_out(row:Attendance ){
-    Swal.fire({
+  async check_out(row: Attendance): Promise<void> {
+    const result = await Swal.fire({
       title: 'Are you sure you want to check out this member?',
-      text: "Register Member: " + row.member.name + " " +row.member.lastName +"!",
+      text: "Register Member: " + row.member.name + " " + row.member.lastName + "!",
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, register it!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.attendance.editAttendance(row.member.id!).subscribe((response)=>{
-        if(!response.hasError){
+    });
+    if (result.isConfirmed) {
+      this.attendance.editAttendance(row.member.id!).subscribe((response) => {
+        if (!response.hasError) {
           this.alertas.messageAlert(response.message);
-          this.store.dispatch(new AddAttendance(response.model));
-        }else{
-          this.alertas.erorrAlert('Error',response.message);
+          console.log('is Today value: ', this.isToday);
+          if (this.isToday) {
+            this.changeToday();
+          } else {
+            this.store.dispatch(new AddAttendance(response.model));
+          }
+        } else {
+          this.alertas.erorrAlert('Error', response.message);
         }
+        if (!this.isToday) {
           this.setValuesTable();
-        })
-      }
-    })
-  }
-
-  
-
-  setValuesTable(){
-    var dataAttendance;
-      this.attendance$.subscribe((response)=>{
-        dataAttendance = response;
         }
-      );
-      this.dataSource = new MatTableDataSource(dataAttendance);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      });
+    }
   }
 
+  setValuesTable(): void {
+    this.attendance$.subscribe((response) => {
+      this.updateDataSource(response);
+    });
+  }
 
+  setValuesTableToday(): void {
+    this.attendanceToday$.subscribe((response) => {
+      this.updateDataSource(response);
+    });
+  }
+
+  private updateDataSource(data: Attendance[]): void {
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
 }

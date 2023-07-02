@@ -39,8 +39,8 @@ export class AttendanceState {
   }
 
   @Action(AddAttendanceToday)
-  addToday({ setState,  getState }: StateContext<AttendanceStateModel>, { attendance }: AddAttendanceToday) {
+  addToday({ setState,  getState }: StateContext<AttendanceStateModel>, { attendanceToday }: AddAttendanceToday) {
     const state = getState();
-    setState({ items: [...state.items], itemsToday: [...attendance] });
+    setState({ items: [...state.items], itemsToday: [...attendanceToday] });
   }
 }
