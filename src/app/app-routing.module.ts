@@ -3,12 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { InitLayoutComponent } from './share/init-layout/init-layout.component';
 import { AdminLayoutComponent } from './share/admin-layout/admin-layout.component';
 import { HasSessionGuard } from './core/guards/has-session.guard';
+import { LoggedInGuard } from './core/guards/logged-in.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/sign-in', pathMatch:'full' },
   { path: '', component: InitLayoutComponent, children:[
-    { path: 'sign-up', loadChildren: () => import('./pages/sign-up/sign-up.module').then(m => m.SignUpModule) },
-    { path: 'sign-in', loadChildren: () => import('./pages/sign-in/sign-in.module').then(m => m.SignInModule) },
+    { path: 'sign-up', loadChildren: () => import('./pages/sign-up/sign-up.module').then(m => m.SignUpModule), canActivate:[LoggedInGuard] },
+    { path: 'sign-in', loadChildren: () => import('./pages/sign-in/sign-in.module').then(m => m.SignInModule),canActivate:[LoggedInGuard] },
+    { path: 'logged-in', loadChildren: () => import('./pages/logged-in/logged-in.module').then(m => m.LoggedInModule), canActivate:[HasSessionGuard] },
   ]},
   { path: '', component: AdminLayoutComponent, children:[
     { path: 'home', loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule),canActivate:[HasSessionGuard] },

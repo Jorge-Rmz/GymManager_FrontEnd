@@ -1,15 +1,34 @@
-.gradient-custom {
-  /* fallback for old browsers */
-  background: #6a11cb;
+// .gradient-custom {
+//   /* fallback for old browsers */
+//   background: #6a11cb;
 
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+//   /* Chrome 10-25, Safari 5.1-6 */
+//   background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
 
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  background: linear-gradient(to right, rgb(21, 85, 138), rgb(63, 207, 11));
-  background-size: 100% 100%;
-}
+//   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+//   background: linear-gradient(to right, rgb(21, 85, 138), rgb(63, 207, 11));
+//   background-size: 100% 100%;
+// }
+
+// html, body {
+//   height: 100vh;
+// }
 
 html, body {
-  height: 100vh;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.gradient-custom {
+  background: #6a11cb;
+  background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+  background: linear-gradient(to right, rgb(21, 85, 138), rgb(63, 207, 11));
+  min-height: 100vh; /* Cambiado a min-height en lugar de height */
+  display: flex; /* Agregado */
+  flex-direction: column; /* Agregado */
+}
+
+.container {
+  flex: 1; /* Agregado */
 }

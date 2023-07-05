@@ -1,32 +1,29 @@
 import { Component, OnInit } from '@angular/core';
+
+import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
-import Swal from 'sweetalert2';
-
-// import * as $ from 'jquery';
-// declare var $: any;
-
 @Component({
-  selector: 'app-admin-layout',
-  templateUrl: './admin-layout.component.html',
-  styleUrls: ['./admin-layout.component.scss'],
+  selector: 'app-logged-in',
+  templateUrl: './logged-in.component.html',
+  styleUrls: ['./logged-in.component.scss']
 })
-export class AdminLayoutComponent implements OnInit{
+export class LoggedInComponent implements OnInit{
   constructor(
     private router : Router,
     private cookie: CookieService
-
   ) { }
-  // private isLoggedIn:boolean = false;
+
+  private isLoggedIn:boolean = false;
   ngOnInit(): void {
-    // let session = this.cookie.get('session');
-    // if(!session){
-    //   this.isLoggedIn = false;
-    // }else{
-    //   this.isLoggedIn = true;
-    // }
+    let session = this.cookie.get('session');
+    if(!session){
+      this.isLoggedIn = false;
+    }else{
+      this.isLoggedIn = true;
+    }
   }
-  closeSession(){
+  logout(){
     Swal.fire({
       title: 'Are you sure you want to log out?',
       text: "You will be logged out of your account.",
@@ -42,7 +39,5 @@ export class AdminLayoutComponent implements OnInit{
         this.router.navigate(['/sign-in']);
       }
     });
-    
   }
-  
 }

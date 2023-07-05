@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CookieService } from 'ngx-cookie';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -7,6 +8,18 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  hasSession = environment.hasSesion;
+  protected isLoggedIn:boolean = false;
+
+  constructor(
+    private cookie: CookieService
+  ) { 
+    let session = this.cookie.get('session');
+    if(!session){
+      this.isLoggedIn = false;
+    }else{
+      this.isLoggedIn = true;
+    }
+  }
+
 
 }
