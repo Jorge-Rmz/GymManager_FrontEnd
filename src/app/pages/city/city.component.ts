@@ -13,7 +13,6 @@ import Swal from 'sweetalert2';
 import { Observable } from 'rxjs';
 import { AddCity } from 'src/app/core/state/cities.actions';
 
-
 @Component({
   selector: 'app-city',
   templateUrl: './city.component.html',

@@ -19,6 +19,7 @@ import { EquipmentTypesState } from './core/state/equipment/state/equipment-type
 import { UserState } from './core/state/user/user.state';
 import { MemberState } from './core/state/member/member.state';
 import { AttendanceState } from './core/state/attendance/attendance.state';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { AttendanceState } from './core/state/attendance/attendance.state';
     BrowserModule,
     AppRoutingModule,
     MaterialModule,
+    MatInputModule,
     BrowserAnimationsModule,
     HttpClientModule,
     CookieModule.withOptions(),

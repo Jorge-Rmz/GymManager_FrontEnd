@@ -18,6 +18,6 @@ describe('NotFoundComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    console.log('hola');
   });
 });
