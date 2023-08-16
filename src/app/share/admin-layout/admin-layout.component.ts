@@ -13,18 +13,11 @@ import Swal from 'sweetalert2';
 })
 export class AdminLayoutComponent implements OnInit{
   constructor(
-    private router : Router,
+    public router : Router,
     private cookie: CookieService
-
   ) { }
-  // private isLoggedIn:boolean = false;
+
   ngOnInit(): void {
-    // let session = this.cookie.get('session');
-    // if(!session){
-    //   this.isLoggedIn = false;
-    // }else{
-    //   this.isLoggedIn = true;
-    // }
   }
   closeSession(){
     Swal.fire({
@@ -42,7 +35,7 @@ export class AdminLayoutComponent implements OnInit{
         this.router.navigate(['/sign-in']);
       }
     });
-    
+
   }
-  
+
 }

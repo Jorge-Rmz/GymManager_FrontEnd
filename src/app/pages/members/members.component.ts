@@ -197,7 +197,7 @@ export class MembersComponent implements OnInit {
         if(!response.hasError){
           this.alertas.messageAlert(response.message);
           this.router.navigate(['/attendance', { parametro: 2 }]);
-          this.store.dispatch(new AddAttendance(response.model));
+          this.store.dispatch(new AddAttendance(response.model!));
         }else{
           this.alertas.erorrAlert('Error',response.message);
         }
@@ -206,7 +206,7 @@ export class MembersComponent implements OnInit {
       }
     })
   }
-  
 
-  
+
+
 }

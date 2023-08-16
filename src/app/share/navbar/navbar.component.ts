@@ -10,7 +10,7 @@ export class NavbarComponent {
 
   constructor(
     private cookie: CookieService
-  ) { 
+  ) {
     let session = this.cookie.get('session');
     if(!session){
       this.isLoggedIn = false;

@@ -3,7 +3,7 @@ import {  Members } from "./members";
 export interface AttendanceResponse {
   hasError:  boolean;
   message:   string;
-  model:     Attendance[];
+  model?:     Attendance[];
   requestId: string;
 }
 

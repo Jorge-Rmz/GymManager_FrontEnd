@@ -10,10 +10,10 @@ describe('MembershipState actions', () => {
     TestBed.configureTestingModule({
       imports: [NgxsModule.forRoot([MembershipStateState])]
     }).compileComponents();
-    store = TestBed.get(Store);
+    store = TestBed.get(Store)
   }));
 
-  it('should create an action and add an item', () => {
+  xit('should create an action and add an item', () => {
     console.log('hola');
   });
 

@@ -34,16 +34,15 @@ export class UsersComponent implements OnInit{
     private user: AccountService,
     private dialog: MatDialog,
     private alertas: SwalAlertsService,
-    private store: Store
+    private store: Store,
   ){}
   displayedColumns: string[] = [ 'userName', 'phoneNumber', 'actions'];
   dataSource!: MatTableDataSource<User>;
 
-  
-
   ngOnInit(): void {
     this.loadData();
   }
+  
   loadData(){
     this.user.getUser().subscribe(response =>{
       this.dataSource = new MatTableDataSource(response.model);

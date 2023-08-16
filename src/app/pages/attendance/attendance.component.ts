@@ -19,7 +19,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./attendance.component.scss']
 })
 export class AttendanceComponent implements OnInit {
-  
+
   @Select(AttendanceState.getAttendance)attendance$!: Observable<Attendance[]>;
   @Select(AttendanceState.getAttendanceToday)attendanceToday$!: Observable<Attendance[]>;
 
@@ -60,16 +60,16 @@ export class AttendanceComponent implements OnInit {
   loadData(): void {
     this.isToday = false;
     this.attendance.getAttendanceAll().subscribe((response) => {
-      this.updateDataSource(response.model);
-      this.store.dispatch(new AddAttendance(response.model));
+      this.updateDataSource(response.model!);
+      this.store.dispatch(new AddAttendance(response.model!));
     });
   }
 
   changeToday(): void {
     this.isToday = true;
     this.attendance.getAttendanceToday().subscribe((response) => {
-      this.updateDataSource(response.model);
-      this.store.dispatch(new AddAttendanceToday(response.model));
+      this.updateDataSource(response.model!);
+      this.store.dispatch(new AddAttendanceToday(response.model!));
     });
   }
 
@@ -98,7 +98,7 @@ export class AttendanceComponent implements OnInit {
           if (this.isToday) {
             this.changeToday();
           } else {
-            this.store.dispatch(new AddAttendance(response.model));
+            this.store.dispatch(new AddAttendance(response.model!));
           }
         } else {
           this.alertas.erorrAlert('Error', response.message);
@@ -128,7 +128,7 @@ export class AttendanceComponent implements OnInit {
           if (this.isToday) {
             this.changeToday();
           } else {
-            this.store.dispatch(new AddAttendance(response.model));
+            this.store.dispatch(new AddAttendance(response.model!));
           }
         } else {
           this.alertas.erorrAlert('Error', response.message);
